@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --negro: #0d0d0d;
+    --carbon: #1e1e1e;
+    --crema: #f4f1ea;
+    --mostaza: #d6a52c;
+    --oliva: #556b57;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--crema);
+    color: var(--negro);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /*
+   * Foco visible.
+   *
+   * El mostaza sobre crema da 2.0:1 y por sí solo no cumple el mínimo de 3:1
+   * que pide WCAG para indicadores de foco. El anillo va en dos capas: negro
+   * pegado al borde (garantiza el contraste) y mostaza por fuera (lleva la
+   * marca). Se lee como un foco mostaza y sí cumple.
+   */
+  :focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--negro),
+      0 0 0 5px var(--mostaza);
+  }
+
+  /* Sobre fondo negro se invierten las capas. */
+  .sobre-negro :focus-visible {
+    box-shadow:
+      0 0 0 2px var(--crema),
+      0 0 0 5px var(--mostaza);
+  }
+
+  ::selection {
+    background-color: var(--mostaza);
+    color: var(--negro);
+  }
+}
+
+@layer components {
+  /*
+   * Viñeta de marca: el guion bajo del logotipo.
+   * Uso: <ul class="lista-kike"><li>…</li></ul>
+   */
+  .lista-kike > li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .lista-kike > li::before {
+    content: "_";
+    position: absolute;
+    left: 0;
+    top: -0.1em;
+    color: var(--mostaza);
+    font-weight: 600;
+  }
+}
+
+@layer utilities {
+  /*
+   * Anillo de foco de marca, aplicable con variantes (`peer-focus-visible:foco-marca`)
+   * cuando el input real está oculto y el foco se pinta sobre su etiqueta.
+   */
+  .foco-marca {
+    box-shadow:
+      0 0 0 2px var(--negro),
+      0 0 0 5px var(--mostaza);
+  }
+
+  /* Titular: Bebas siempre en mayúsculas. */
+  .titular {
+    font-family: var(--font-display), Impact, sans-serif;
+    text-transform: uppercase;
+  }
+
+  /* Apertura animada de los condicionales, sin saltos de altura. */
+  .revelar {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 320ms cubic-bezier(0.2, 0, 0, 1),
+      opacity 220ms ease-out;
+  }
+
+  .revelar-abierto {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .revelar > .revelar-interior {
+    overflow: hidden;
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
