@@ -34,7 +34,9 @@ export function Reveal({ abierto, children }: { abierto: boolean; children: Reac
     <div
       className={`revelar ${abierto ? "revelar-abierto" : ""}`}
       // Cerrado: fuera del orden de tabulación y del árbol de accesibilidad.
-      inert={!abierto}
+      // React 18 tipa `inert` como booleano pero lo emite como atributo de
+      // texto, así que se pasa como cadena para no provocar un aviso.
+      {...(abierto ? {} : ({ inert: "" } as Record<string, string>))}
     >
       <div className="revelar-interior">
         <div className="pb-1 pt-1">{children}</div>

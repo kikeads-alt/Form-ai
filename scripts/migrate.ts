@@ -3,12 +3,16 @@ import { join } from "node:path";
 
 import postgres from "postgres";
 
+import { cargarEnvLocal } from "./cargar-env";
+
 /**
  * Aplica las migraciones de ./drizzle contra DATABASE_URL.
  *
  * Se usa el cliente directo en vez del migrador de Drizzle para que funcione
  * igual en local, en Neon y en Vercel Postgres sin depender del runtime.
  */
+cargarEnvLocal();
+
 async function main() {
   const url = process.env.DATABASE_URL;
   if (!url) {

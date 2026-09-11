@@ -1,5 +1,9 @@
 import type { Config } from "drizzle-kit";
 
+import { cargarEnvLocal } from "./scripts/cargar-env";
+
+cargarEnvLocal();
+
 export default {
   schema: "./lib/db/schema.ts",
   out: "./drizzle",
