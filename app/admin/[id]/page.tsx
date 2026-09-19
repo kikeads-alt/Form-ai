@@ -4,6 +4,7 @@ import { notFound, redirect } from "next/navigation";
 import { BanderaDetalle } from "@/components/admin/BanderaEtiqueta";
 import { CopiarTexto } from "@/components/admin/CopiarTexto";
 import { SelectorEstado } from "@/components/admin/SelectorEstado";
+import { EnlaceBoton } from "@/components/ui/EnlaceBoton";
 import { haySesion } from "@/lib/auth";
 import { leerEnvio } from "@/lib/db/submissions";
 import { markdownBrief, markdownRespuestas, valorLegible } from "@/lib/markdown";
@@ -31,12 +32,18 @@ export default async function Detalle({ params }: { params: { id: string } }) {
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-12">
-      <Link
-        href="/admin"
-        className="font-sans text-xs uppercase tracking-[0.1em] text-oliva underline hover:text-negro"
-      >
-        ← Todos los envíos
-      </Link>
+      <div className="flex items-center justify-between gap-4">
+        <Link
+          href="/admin"
+          className="font-sans text-xs uppercase tracking-[0.1em] text-oliva underline hover:text-negro"
+        >
+          ← Todos los envíos
+        </Link>
+
+        <EnlaceBoton href="/onboarding" target="_blank" className="min-h-[40px] px-3 py-1.5 text-xs">
+          Ver formulario
+        </EnlaceBoton>
+      </div>
 
       <h1 className="titular mt-4 text-d-md leading-none">{envio.nombre}</h1>
       <p className="mt-2 font-sans text-[15px] text-carbon">

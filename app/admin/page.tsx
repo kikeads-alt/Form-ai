@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { BanderaEtiqueta } from "@/components/admin/BanderaEtiqueta";
 import { Boton } from "@/components/ui/Boton";
+import { EnlaceBoton } from "@/components/ui/EnlaceBoton";
 import { haySesion } from "@/lib/auth";
 import { hayBaseDeDatos } from "@/lib/db";
 import { listarEnvios } from "@/lib/db/submissions";
@@ -25,7 +26,16 @@ export default async function Panel() {
   if (!hayBaseDeDatos) {
     return (
       <div className="mx-auto max-w-3xl px-5 py-16">
-        <h1 className="titular text-d-md leading-none">Panel.</h1>
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <h1 className="titular text-d-md leading-none">Panel.</h1>
+          <EnlaceBoton
+            href="/onboarding"
+            target="_blank"
+            className="min-h-[44px] self-start px-4 py-2 text-xs sm:self-auto"
+          >
+            Ver formulario
+          </EnlaceBoton>
+        </div>
         <p className="mt-4 border-l-[3px] border-alerta bg-alerta/10 px-4 py-3 font-sans text-sm text-alerta">
           Falta <code>DATABASE_URL</code>. Sin base de datos no hay envíos que mostrar.
         </p>
@@ -37,7 +47,7 @@ export default async function Panel() {
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-12">
-      <div className="flex items-end justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-mostaza">
             {envios.length} {envios.length === 1 ? "envío" : "envíos"}
@@ -45,11 +55,17 @@ export default async function Panel() {
           <h1 className="titular mt-1 text-d-md leading-none">Onboarding.</h1>
         </div>
 
-        <form action={salir}>
-          <Boton variante="secundario" type="submit" className="min-h-[44px] px-4 py-2 text-xs">
-            Salir
-          </Boton>
-        </form>
+        <div className="flex items-center gap-3">
+          <EnlaceBoton href="/onboarding" target="_blank" className="min-h-[44px] px-4 py-2 text-xs">
+            Ver formulario
+          </EnlaceBoton>
+
+          <form action={salir}>
+            <Boton variante="secundario" type="submit" className="min-h-[44px] px-4 py-2 text-xs">
+              Salir
+            </Boton>
+          </form>
+        </div>
       </div>
 
       {envios.length === 0 ? (
